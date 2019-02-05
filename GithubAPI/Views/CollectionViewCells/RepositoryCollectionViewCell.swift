@@ -28,14 +28,21 @@ class RepositoryCollectionViewCell: UICollectionViewCell {
         customView.autoPinEdge(toSuperviewEdge: .bottom)
     }
     
-    func setupCollectionViewCell(viewModel: FormCellViewModel?) {
-        customView.backgroundColor = #colorLiteral(red: 0.3294117647, green: 0.4901960784, blue: 0.5803921569, alpha: 1)
-        customView.iconImage = viewModel?.formRecordImage
-        customView.titleText = viewModel?.formRecordTitle
-        customView.subTitleText = viewModel?.formRecordSubTitle
-        customView.textColor = #colorLiteral(red: 0.568627451, green: 0.6745098039, blue: 0.7333333333, alpha: 1)
+    func setupCollectionViewCell(viewModel: RepositoryViewModel?) {
+        customView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        customView.layer.cornerRadius = 12.0
+        customView.layer.masksToBounds = true
         
-        customView.updateConstraint(withOffset: viewModel?.formConstantCenterTitle ?? 0)
+        customView.layer.shadowColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        customView.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        
+        self.customView.photoImageView.image = nil
+        viewModel?.downloadImage(completion: { (image, error) in
+            self.customView.photoImageView.image = image
+        })
+        customView.repositoryNameLabel.text = viewModel?.repositoryName
+        customView.amountStarLabel.text = String(viewModel?.amountStar ?? 0)
+        customView.authorNameLabel.text = viewModel?.authorName
     }
     
 }

@@ -19,7 +19,8 @@ class RepositoryAPIStore: GenericAPIStore, RepositoryStore {
             let urlRequest = try RepositoryRouter.allRepository(perPage: perPage, page: page).asURLRequest()
             if let url = urlRequest {
                 Alamofire.request(url, method: .get).responseJSON(completionHandler: { (response) in
-                    guard let responseLoad =  response.response else {
+                    guard let responseLoad = response.response else {
+                        completion(nil, response.error as NSError?)
                         return
                     }
                     switch responseLoad.statusCode {

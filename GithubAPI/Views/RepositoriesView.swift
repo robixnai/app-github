@@ -22,16 +22,22 @@ class RepositoriesView: BaseView {
 
     let repositoriesCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 400)
+        layout.sectionInset = UIEdgeInsets(top: 10.0, left: 20.0, bottom: 20.0, right: 20.0)
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 40.0), height: 466)
         layout.scrollDirection = .vertical
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
+        collectionView.register(RepositoryCollectionViewCell.self, forCellWithReuseIdentifier: "RepositoryCollectionViewCell")
         collectionView.alwaysBounceVertical = true
-        
-        collectionView.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        collectionView.backgroundColor = #colorLiteral(red: 0.9333333333, green: 0.9333333333, blue: 0.9333333333, alpha: 1)
+        collectionView.isHidden = true
         return collectionView
+    }()
+    
+    let repositoriesLoadingLoadingView: LoadingView = {
+        let loadingView = LoadingView(frame: CGRect.zero)
+        loadingView.startAnimating()
+        return loadingView
     }()
     
     override init(frame: CGRect) {
@@ -50,6 +56,9 @@ class RepositoriesView: BaseView {
             repositoriesCollectionView.autoPinEdge(toSuperviewEdge: .trailing)
             repositoriesCollectionView.autoPinEdge(toSuperviewEdge: .top)
             repositoriesCollectionView.autoPinEdge(toSuperviewEdge: .bottom)
+            
+            repositoriesLoadingLoadingView.autoAlignAxis(toSuperviewAxis: .vertical)
+            repositoriesLoadingLoadingView.autoAlignAxis(toSuperviewAxis: .horizontal)
 
             shouldSetupConstraints = false
         }
@@ -57,6 +66,10 @@ class RepositoriesView: BaseView {
     }
     
     private func setupView() {
+        repositoriesLoadingLoadingView.autoSetDimension(.width, toSize: UIScreen.main.bounds.width)
+        repositoriesLoadingLoadingView.autoSetDimension(.height, toSize: UIScreen.main.bounds.height)
+        addSubview(repositoriesLoadingLoadingView)
+        
         repositoriesRefreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         addSubview(repositoriesCollectionView)
     }

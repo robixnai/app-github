@@ -11,13 +11,27 @@ import PureLayout
 class RepositoryView: UIView {
     
     private var shouldSetupConstraints = true
+    
+    private let repositoryLabelNameLabel: UILabel = {
+        let label = UILabel(frame: CGRect.zero)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.text = "Repositório:"
+        return label
+    }()
+    
+    private let starImageView: UIImageView = {
+        let imageView = UIImageView(frame: CGRect.zero)
+        imageView.image = #imageLiteral(resourceName: "baseline_star_rate_black")
+        imageView.contentMode = .center
+        return imageView
+    }()
 
     let repositoryNameLabel: UILabel = {
         let label = UILabel(frame: CGRect.zero)
         return label
     }()
     
-    let numberStarLabel: UILabel = {
+    let amountStarLabel: UILabel = {
         let label = UILabel(frame: CGRect.zero)
         return label
     }()
@@ -44,12 +58,22 @@ class RepositoryView: UIView {
     
     override func updateConstraints() {
         if shouldSetupConstraints {
-            photoImageView.autoPinEdge(toSuperviewEdge: .top, withInset: 10)
-            photoImageView.autoPinEdge(toSuperviewEdge: .leading)
+            photoImageView.autoAlignAxis(toSuperviewAxis: .vertical)
             
-            repositoryNameLabel.autoPinEdge(.right, to: .left, of: photoImageView, withOffset: 6)
-            authorNameLabel.autoPinEdge(.right, to: .left, of: photoImageView, withOffset: 6)
-            numberStarLabel.autoPinEdge(.right, to: .left, of: photoImageView, withOffset: 6)
+            repositoryLabelNameLabel.autoPinEdge(.top, to: .bottom, of: photoImageView, withOffset: 2)
+            repositoryLabelNameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 8)
+            
+            repositoryNameLabel.autoPinEdge(.top, to: .bottom, of: repositoryLabelNameLabel, withOffset: 0)
+            repositoryNameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 8)
+            
+            authorNameLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: 10)
+            authorNameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 8)
+            
+            amountStarLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 8)
+            amountStarLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: 10)
+            
+            starImageView.autoPinEdge(.right, to: .left, of: amountStarLabel, withOffset: -2)
+            starImageView.autoPinEdge(.top, to: .top, of: amountStarLabel, withOffset: 0)
             
             shouldSetupConstraints = false
         }
@@ -57,15 +81,21 @@ class RepositoryView: UIView {
     }
     
     private func setupView() {
-        photoImageView.autoSetDimension(.width, toSize: 40)
-        photoImageView.autoSetDimension(.height, toSize: 40)
+        photoImageView.autoSetDimension(.width, toSize: (UIScreen.main.bounds.width - 38.0))
+        photoImageView.autoSetDimension(.height, toSize: 380)
         addSubview(photoImageView)
+        
+        addSubview(repositoryLabelNameLabel)
         
         addSubview(repositoryNameLabel)
         
         addSubview(authorNameLabel)
         
-        addSubview(numberStarLabel)
+        starImageView.autoSetDimension(.width, toSize: 20)
+        starImageView.autoSetDimension(.height, toSize: 20)
+        addSubview(starImageView)
+        
+        addSubview(amountStarLabel)
     }
 
 }

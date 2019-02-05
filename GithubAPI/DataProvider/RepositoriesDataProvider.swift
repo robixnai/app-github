@@ -8,11 +8,7 @@
 
 import Foundation
 
-protocol RepositoriesDataProviderProtocol: GenericDataProvider {
-    
-    //    func loadSeries(viewModel: Any)
-    
-}
+protocol RepositoriesDataProviderProtocol: GenericDataProvider {}
 
 class RepositoriesDataProviderManeger: DataProviderManager <RepositoriesDataProviderProtocol, RepositoriesViewModel> {
     
@@ -20,7 +16,11 @@ class RepositoriesDataProviderManeger: DataProviderManager <RepositoriesDataProv
         RepositoryAPIStore().getRepositories(page: page) { (repositories, error) in
             if error == nil {
                 if let repositoriesLoad = repositories, let repositoryList = repositoriesLoad.items {
-                    self.viewModel = RepositoriesViewModel(repositoryList: repositoryList)
+                    if self.viewModel == nil {
+                        self.viewModel = RepositoriesViewModel(repositoryList: repositoryList)
+                    } else {
+                        self.viewModel?.updateViewModel(repositoryList: repositoryList)
+                    }
                     if let vm = self.viewModel {
                         self.delegate?.success(viewModel: vm)
                     }
