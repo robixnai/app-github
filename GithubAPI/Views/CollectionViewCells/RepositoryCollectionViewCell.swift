@@ -29,14 +29,7 @@ class RepositoryCollectionViewCell: UICollectionViewCell {
     }
     
     func setupCollectionViewCell(viewModel: RepositoryViewModel?) {
-        customView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        customView.layer.cornerRadius = 12.0
-        customView.layer.masksToBounds = true
-        
-        customView.layer.shadowColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        customView.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        
-        self.customView.photoImageView.image = nil
+        customView.photoImageView.image = nil
         viewModel?.downloadImage(completion: { (image, error) in
             self.customView.photoImageView.image = image
         })

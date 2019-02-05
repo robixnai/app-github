@@ -8,7 +8,7 @@
 
 import PureLayout
 
-class RepositoryView: UIView {
+class RepositoryView: BaseView {
     
     private var shouldSetupConstraints = true
     
@@ -81,6 +81,12 @@ class RepositoryView: UIView {
     }
     
     private func setupView() {
+        self.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        self.layer.cornerRadius = 12.0
+        self.layer.masksToBounds = true
+        self.layer.shadowColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        self.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        
         photoImageView.autoSetDimension(.width, toSize: (UIScreen.main.bounds.width - 38.0))
         photoImageView.autoSetDimension(.height, toSize: 380)
         addSubview(photoImageView)
